@@ -1,0 +1,31 @@
+﻿@model List<Player>
+
+<h1>Spelarregister</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Spelarnamn</th>
+            <th>Startar</th>
+            <th>Position</th>
+            <th>Ta bort</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var player in Model)
+        {
+            <tr>
+                <td>@player.Name</td>
+                <td>@(player.IsStarter ? "Ja" : "Nej")</td>
+                <td>@player.Position</td>
+                <td>
+                    <form method="post" asp-action="RemovePlayer">
+                        <input type="hidden" name="playerId" value="@player.Id"/>
+                        <button type="submit" class="btn btn-danger">Ta bort</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

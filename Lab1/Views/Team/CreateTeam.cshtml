@@ -1,0 +1,20 @@
+﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@model Team
+
+<h1>Skapa Nytt Lag</h1>
+
+<form asp-action="Create">
+    <div class="form-group">
+        <label for="Team.TeamName">Lagnamn:</label>
+        <input asp-for="TeamName" class="form-control" />
+        <span asp-validation-for="TeamName" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label for="Team.Coach">Coach:</label>
+        <input asp-for="Coach" class="form-control" />
+        <span asp-validation-for="Coach" class="error"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Lägg till</button>
+</form>
+
+

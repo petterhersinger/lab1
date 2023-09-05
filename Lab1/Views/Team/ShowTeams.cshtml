@@ -1,0 +1,28 @@
+﻿@model List<Team>
+
+<h1>Lagregister</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Lagnamn</th>
+            <th>Coach</th>
+            <th>Ta bort</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var team in Model)
+        {
+            <tr>
+                <td>@team.TeamName</td>
+                <td>@team.Coach</td>
+                <td>
+                    <form method="post" asp-action="RemoveTeam">
+                        <input type="hidden" name="teamId" value="@team.Id" />
+                        <button type="submit" class="btn btn-danger">Ta bort</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

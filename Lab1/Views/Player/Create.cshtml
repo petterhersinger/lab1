@@ -1,27 +1,32 @@
 ﻿@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
-@model Player
+@model PlayerTeamViewModel
 
 <h1>Skapa Ny Spelare</h1>
 
 <form asp-action="Create">
     <div class="form-group">
         <label for="Name">Namn:</label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="error"></span>
+        <input asp-for="Player.Name" class="form-control" />
+        <span asp-validation-for="Player.Name" class="error"></span>
     </div>
     <div class="form-group">
-        <label for="IsStarter">Startar:</label>
-        <input asp-for="IsStarter" type="checkbox" />
+        <label for="Player.IsStarter">Startar:</label>
+        <input asp-for="Player.IsStarter" type="checkbox" />
     </div>
     <div class="form-group">
-        <label for="Position">Position:</label>
-        <select asp-for="Position" class="form-control">
+        <label for="Player.Position">Position:</label>
+        <select asp-for="Player.Position" class="form-control">
             <option value="Point Guard">Point Guard</option>
             <option value="Shooting Guard">Shooting Guard</option>
             <option value="Small Forward">Small Forward</option>
             <option value="Power Forward">Power Forward</option>
             <option value="Center">Center</option>
         </select>
+    </div>
+    <div class="form-group">
+        <label for="Team.TeamId">Lag:</label>
+        <select asp-for="Team.TeamId" class="form-control" asp-items="@(ViewBag.Teams)"></select>
+
     </div>
     <button type="submit" class="btn btn-primary">Lägg till</button>
 </form>

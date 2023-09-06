@@ -1,5 +1,6 @@
 ﻿using Lab1.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Lab1.Controllers
 {
@@ -7,29 +8,65 @@ namespace Lab1.Controllers
     {
         public static int playerCounter = 1;
         public static List<Player> players = new List<Player>();
+        public static List<Team> GetTeams()
+        {
+            var teams = new List<Team>
+    {
+        new Team { TeamId = 1, TeamName = "BC Luleå" },
+        new Team { TeamId = 2, TeamName = "Sundsvall Dragons" },
+    };
+
+            return teams;
+        }
+        private Team GetTeamById(int teamId)
+        {
+            return teams.FirstOrDefault(team => team.TeamId == teamId);
+        }
+
 
         public IActionResult ShowPlayers()
         {
+            var playerViewModels = new List<PlayerTeamViewModel>();
 
-            return View(players);
+            foreach (var player in players)
+            {
+                var team = GetTeamById(team.TeamId);
+                var playerTeamViewModel = new PlayerTeamViewModel
+                {
+                    Player = player,
+                    Team = team
+                };
+                playerViewModels.Add(playerTeamViewModel);
+            }
+
+            return View(playerViewModels);
         }
 
         public IActionResult Create()
         {
-            return View();
+            var teams = GetTeams();
+
+            ViewData["Teams"] = new SelectList(teams, "TeamId", "TeamName");
+
+            var playerViewModel = new PlayerTeamViewModel();
+            return View(playerViewModel);
         }
 
         [HttpPost]
-        public IActionResult Create(Player player)
+        public IActionResult Create(PlayerTeamViewModel playerViewModel)
         {
             if (ModelState.IsValid)
             {
+                var player = playerViewModel.Player;
                 player.Id = playerCounter++;
                 players.Add(player);
                 return RedirectToAction("ShowPlayers");
             }
-            return View(player);
+            var teams = GetTeams();
+            ViewBag.Teams = new SelectList(teams, "TeamId", "TeamName");
+            return View(playerViewModel);
         }
+
         [HttpPost]
         public IActionResult RemovePlayer(int playerId)
         {

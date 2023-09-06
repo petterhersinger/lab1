@@ -13,13 +13,9 @@ namespace Lab1.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult About()
         {
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
+            ViewData["CurrentDate"] = DateTime.Now;
             return View();
         }
 

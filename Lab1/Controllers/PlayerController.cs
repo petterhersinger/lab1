@@ -62,11 +62,11 @@ namespace Lab1.Controllers
         [HttpPost]
         public IActionResult RemovePlayer(int playerId)
         {
-            var playerToRemove = players.FirstOrDefault(player => player.Id == playerId);
+            var playerTeamToRemove = playerTeams.FirstOrDefault(pt => pt.Player.Id == playerId);
 
-            if (playerToRemove != null)
+            if (playerTeamToRemove != null)
             {
-                players.Remove(playerToRemove);
+                playerTeams.Remove(playerTeamToRemove);
             }
 
             return RedirectToAction("ShowPlayers");

@@ -28,20 +28,20 @@ namespace Lab1.Controllers
 
         public IActionResult ShowPlayers()
         {
-            var playerViewModels = new List<PlayerTeamViewModel>();
+            var playerTeamViewModelList = new List<PlayerTeamViewModel>();
 
             foreach (var player in players)
             {
-                var team = GetTeamById(player.PlayingId);
+                var team = GetTeamById(player.TeamId);
                 var playerTeamViewModel = new PlayerTeamViewModel
                 {
                     Player = player,
                     Team = team
                 };
-                playerViewModels.Add(playerTeamViewModel);
+                playerTeamViewModelList.Add(playerTeamViewModel);
             }
 
-            return View(playerViewModels);
+            return View(playerTeamViewModelList);
         }
 
         public IActionResult Create()
@@ -50,8 +50,8 @@ namespace Lab1.Controllers
 
             ViewData["Teams"] = new SelectList(teams, "TeamId", "TeamName");
 
-            var playerViewModel = new PlayerTeamViewModel();
-            return View(playerViewModel);
+            var playerTeamViewModel = new PlayerTeamViewModel();
+            return View(playerTeamViewModel);
         }
 
         [HttpPost]
@@ -64,6 +64,7 @@ namespace Lab1.Controllers
                 players.Add(player);
                 return RedirectToAction("ShowPlayers");
             }
+
             var teams = GetTeams();
             ViewBag.Teams = new SelectList(teams, "TeamId", "TeamName");
             return View(playerTeamViewModel);

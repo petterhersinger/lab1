@@ -10,6 +10,7 @@ namespace Lab1.Models
         public string Name { get; set; }
         public bool IsStarter { get; set; }
         public string Position { get; set; }
+        public int PlayingId { get; set; }
 
     }
 }

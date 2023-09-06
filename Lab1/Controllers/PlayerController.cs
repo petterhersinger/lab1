@@ -8,21 +8,23 @@ namespace Lab1.Controllers
     {
         public static int playerCounter = 1;
         public static List<Player> players = new List<Player>();
-        public static List<Team> GetTeams()
+        public static List<Team> teams = GetTeams();
+
+        private static List<Team> GetTeams()
         {
             var teams = new List<Team>
-    {
-        new Team { TeamId = 1, TeamName = "BC Luleå" },
-        new Team { TeamId = 2, TeamName = "Sundsvall Dragons" },
-    };
+        {
+            new Team { TeamId = 1, TeamName = "BC Luleå" },
+            new Team { TeamId = 2, TeamName = "Sundsvall Dragons" },
+        };
 
             return teams;
         }
+
         private Team GetTeamById(int teamId)
         {
             return teams.FirstOrDefault(team => team.TeamId == teamId);
         }
-
 
         public IActionResult ShowPlayers()
         {
@@ -30,7 +32,7 @@ namespace Lab1.Controllers
 
             foreach (var player in players)
             {
-                var team = GetTeamById(team.TeamId);
+                var team = GetTeamById(player.PlayingId);
                 var playerTeamViewModel = new PlayerTeamViewModel
                 {
                     Player = player,
@@ -53,18 +55,18 @@ namespace Lab1.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(PlayerTeamViewModel playerViewModel)
+        public IActionResult Create(PlayerTeamViewModel playerTeamViewModel)
         {
             if (ModelState.IsValid)
             {
-                var player = playerViewModel.Player;
+                var player = playerTeamViewModel.Player;
                 player.Id = playerCounter++;
                 players.Add(player);
                 return RedirectToAction("ShowPlayers");
             }
             var teams = GetTeams();
             ViewBag.Teams = new SelectList(teams, "TeamId", "TeamName");
-            return View(playerViewModel);
+            return View(playerTeamViewModel);
         }
 
         [HttpPost]
